@@ -1,0 +1,38 @@
+------------- Main Issue In Original Code -------------
+
+1- The original code was handling database connection, domain filtering, Excel file creation, and email sending all within a single function. 
+This made the code hard to maintain and extend.
+
+2- Error Handling
+
+3- Hardcoded Configuration: putting sensitive values directly in the code making it less secure 
+
+4- Filtering unused data: Fetching all the Domains and manually scanning the range is inefficient especially as the data grows in the future.
+
+5- Resource Management
+
+6- Complex code; readability, maintainability, and scalability are difficult in this case
+
+
+
+
+
+------------- How My Refactored Code Addresses These Issues -------------
+
+1- Separation: By splitting the tasks into functions (connectAndFetchDomains, generateExcel, publishEmailTask), 
+each part of the process can be maintained or modified independently.
+
+2- Improved Error Handling: Each function includes try/catch blocks, 
+ensuring errors are handled. Resources like database connections are always closed properly using a finally block.
+
+3- Use of Environment Variables: database connections and email credentials are now loaded from environment variables using dotenv. 
+This enhances security and flexibility.
+
+4- Efficient Data Filtering: Getting unused data then filtering themو It leads to poor use of Machine resources such as memory and data transferred. 
+so we used a MongoDB query to exclude blacklisted domains directly.       
+
+5- Resource Efficiency: By using asynchronous functions and properly managing RabbitMQ connections,
+we prevents resource leaks and is more efficient in resource usage.
+
+6- By using a separate process to handle email tasks, the main application can run without waiting for emails to send. 
+This makes the application faster and more reliable when handling other tasks.
